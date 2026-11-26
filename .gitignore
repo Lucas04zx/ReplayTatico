@@ -1,0 +1,37 @@
+# Python e ferramentas locais
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.cache/
+.ruff_cache/
+.coverage
+.vscode/
+
+# Segredos e preferências locais
+.env
+.env.*
+*.pem
+*.key
+credentials.json
+
+# Entradas, modelos e artefatos reproduzíveis
+/data/raw/
+/data/imports/
+/data/clips/
+/data/annotations/
+/models/
+/outputs/
+*.pt
+*.pth
+*.onnx
+*.mp4
+*.mov
+*.mkv
+*.avi
+*.zip
+
+# Materiais fornecidos para consulta local
+/tp2.pdf
+/ReplayTatico_Dossie_de_Continuidade.txt
