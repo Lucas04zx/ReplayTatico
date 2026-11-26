@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Replay Tático</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='studio.css') }}">
+  <script type="module" src="{{ url_for('static', filename='studio.js') }}"></script>
+</head>
+<body>
+  <header class="masthead">
+    <div class="wordmark"><span class="mark" aria-hidden="true"></span><strong>REPLAY<span>TÁTICO</span></strong></div>
+    <form id="import-form"><label class="button import">Importar vídeo<input type="file" name="video" accept="video/*" hidden></label></form>
+  </header>
+  <main>
+    <div class="heading">
+      <div><p class="eyebrow">ESTAÇÃO DE REPLAY</p><h1>Revisão de jogada</h1></div>
+      <label class="clip-select">Clipe <select id="clips" aria-label="Clipe"><option value="">Carregando…</option></select></label>
+    </div>
+    <div class="workspace">
+      <section class="player" aria-label="Player de replay">
+        <div class="player-top">
+          <div class="view-tabs" aria-label="Modo de vídeo">
+            <button type="button" data-view="original" aria-pressed="true">Original</button>
+            <button type="button" data-view="technical" aria-pressed="false">Técnico</button>
+            <button type="button" data-view="special" aria-pressed="false">Especial</button>
+          </div>
+          <output id="counter" class="counter">—</output>
+        </div>
+        <div class="screen" id="screen">
+          <p id="empty">Selecione ou importe um vídeo.</p>
+          <img id="frame" alt="Quadro do lance" hidden>
+          <video id="motion" playsinline preload="metadata" muted hidden aria-label="Reprodução do lance"></video>
+          <canvas id="effect" hidden aria-hidden="true"></canvas>
+          <span id="selection" aria-hidden="true" hidden></span>
+        </div>
+        <div class="transport">
+          <div class="timeline">
+            <input id="timeline" type="range" min="0" max="1" value="0" aria-label="Quadro na linha do tempo" disabled>
+            <div id="markers" class="markers"></div>
+          </div>
+          <div class="controls">
+            <button type="button" id="previous" class="step" title="Quadro anterior (←)" aria-label="Quadro anterior">|◀</button>
+            <button type="button" id="play" class="play" aria-label="Reproduzir">▶</button>
+            <button type="button" id="next" class="step" title="Próximo quadro (→)" aria-label="Próximo quadro">▶|</button>
+            <label class="speed">Velocidade <select id="speed" aria-label="Velocidade"><option value=".25">0,25×</option><option value=".5">0,5×</option><option value="1" selected>1×</option><option value="1.5">1,5×</option></select></label>
+          </div>
+        </div>
+      </section>
+      <aside class="sidebar">
+        <section id="overview" class="panel">
+          <h2>Análise do passe</h2>
+          <p id="pass-status" class="result">Selecione um replay processado.</p>
+          <dl id="pass-fields"></dl>
+          <p id="reason" class="muted"></p>
+        </section>
+        <section id="layers" class="panel" hidden>
+          <h2>Camadas técnicas</h2>
+          <div class="check-grid">
+            <label><input type="checkbox" value="boxes" checked> Caixas e IDs</label>
+            <label><input type="checkbox" value="ball" checked> Bola e trajetória</label>
+            <label><input type="checkbox" value="pose" checked> Pose</label>
+            <label><input type="checkbox" value="mask" checked> Máscara</label>
+            <label><input type="checkbox" value="hud" checked> Dados do quadro</label>
+          </div>
+        </section>
+        <section id="special" class="panel" hidden>
+          <h2>Efeitos da jogada</h2>
+          <label class="form-label">Intensidade <input id="intensity" type="range" min="0" max="1.5" value="1" step=".05"></label>
+          <label class="form-label">Evento manual
+            <select id="manual-type"><option value="SHOT">Chute energético</option><option value="SAVE">Mão Fantasma</option><option value="GOAL">Gol especial</option><option value="INTERCEPTION">Interceptação</option></select>
+          </label>
+          <button type="button" id="manual-mark" class="button">Marcar neste quadro</button>
+          <p class="muted">Clique na posição do efeito depois de ativar a marcação.</p>
+          <ul id="manual-events"></ul>
+        </section>
+        <section id="annotation" class="panel" hidden>
+          <h2>Referência independente</h2>
+          <p id="annotation-help" class="muted">Marque o primeiro quadro com a bola já separada do pé. Em seguida, use o quadro anterior para clicar no tronco do passador.</p>
+          <div class="annotation-tools">
+            <button type="button" id="mark-release" class="button">Registrar saída</button>
+            <button type="button" id="mark-reception" class="button">Registrar recepção</button>
+            <button type="button" id="save-reference" class="button primary" disabled>Salvar referência</button>
+          </div>
+          <p id="annotation-summary" class="muted"></p>
+        </section>
+        <section id="export" class="panel" hidden>
+          <h2>Exportar</h2>
+          <div id="downloads" class="downloads"></div>
+        </section>
+      </aside>
+    </div>
+    <p id="notification" class="notification" role="status"></p>
+    <section id="depth" class="depth" hidden>
+      <div class="depth-heading"><h2 id="depth-title">Profundidade monocular</h2><a id="depth-table" class="button">Tabela de estimativas</a></div>
+      <div id="depth-grid" class="depth-grid"></div>
+    </section>
+  </main>
+</body>
+</html>

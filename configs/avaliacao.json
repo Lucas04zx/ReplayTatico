@@ -1,0 +1,25 @@
+{
+  "tracker": "configs/bytetrack.yaml",
+  "weights": {
+    "detect": "yolo26n.pt",
+    "ball": "football-ball-detection.pt",
+    "pose": "yolo26n-pose.pt",
+    "segment": "yolo26n-seg.pt",
+    "depth": "yolo26n-depth.pt"
+  },
+  "player_imgsz": 1280,
+  "ball_imgsz": 1280,
+  "ball_conf": 0.14,
+  "ball_class": 0,
+  "pose_imgsz": 320,
+  "segment_imgsz": 1280,
+  "depth_imgsz": 768,
+  "contact": 0.23,
+  "release": 0.33,
+  "min_motion": 0.07,
+  "min_leg_motion": 0.035,
+  "pose_conf": 0.3,
+  "association_iou": 0.3,
+  "min_flight_seconds": 0.12,
+  "max_gap_seconds": 0.12
+}
