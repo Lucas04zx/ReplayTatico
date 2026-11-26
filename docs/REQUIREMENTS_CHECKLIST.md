@@ -1,14 +1,15 @@
 # Checklist do TP2
 
-- [ ] Dois trechos de passe concluído, com arquivo de origem, intervalo, continuidade da câmera e bola e perna visíveis.
-- [ ] Detecção de jogadores e bola. Comparação no ajuste se a detecção da bola for inconsistente.
-- [ ] IDs persistentes, trajetória em coordenadas da imagem e registro dos quadros em que a bola se perdeu.
-- [ ] Pose do passador com quadril, joelho e tornozelo, nos momentos de preparação, chute e finalização, incluindo registro de baixa confiança.
-- [ ] Máscara associada a um dos IDs e evidência de caixa e máscara no mesmo quadro.
-- [ ] Três pares de quadro original e mapa de profundidade, com tabela para os dois jogadores e análise de incerteza.
-- [ ] Inferência automática de passador, recebedor, saída, recepção e duração com o FPS de origem, com resultado inconclusivo quando a evidência for insuficiente.
-- [ ] Anotação independente do segundo trecho, feita pelo grupo antes de executar a análise automática.
-- [ ] Comparação de identidade, erro em quadros, diferença de duração, rastreamento e dificuldade observada.
-- [ ] Código, README com instalação, versão do Ultralytics, modelos e configuração do rastreador.
-- [ ] Replay MP4 anotado, evidências RGB e profundidade, tabela de profundidade e CSV no formato oficial.
-- [ ] Relatório final e apresentação em trio de cerca de cinco minutos.
+- [x] Dois trechos de passe concluído, com arquivo de origem, intervalo e continuidade da câmera. Oclusão breve da bola na saída do segundo trecho documentada.
+- [x] Detecção de jogadores e bola, com comparação de resolução, limiar e detector no ajuste.
+- [x] IDs persistentes, trajetória em coordenadas da imagem e perdas por quadro.
+- [x] Pose do passador com quadril, joelho e tornozelo, nos três momentos, com indicação de baixa confiança.
+- [x] Máscara associada ao ID e par caixa/máscara no mesmo quadro.
+- [x] Três pares RGB/profundidade e tabela dos dois jogadores na avaliação, com seleção dos quadros pela referência manual.
+- [x] Inferência da jogada com FPS de origem. Passe identificado no ajuste e avaliação inconclusiva por perda no intervalo decisivo.
+- [x] Marcação independente do segundo trecho feita pelo grupo antes da inferência.
+- [x] Comparação com a referência, com identidade e erros indisponíveis na saída inconclusiva, e discussão da dificuldade observada.
+- [x] Código e README com instalação, versões, modelos e ByteTrack.
+- [x] Replay MP4 automático, replay com marcadores manuais, evidências e CSV no formato oficial.
+- [x] Relatório e roteiro de aproximadamente cinco minutos.
+- [ ] Apresentação presencial em trio e compartilhamento autorizado com o professor.
