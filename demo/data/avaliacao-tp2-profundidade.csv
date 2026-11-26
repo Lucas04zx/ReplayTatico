@@ -1,0 +1,7 @@
+momento,quadro,papel,id,mediana_modelo,pixels_validos,metodo
+saida,411,passador,1,5.13075065612793,1275,mascara
+saida,411,recebedor,3,6.583223342895508,1180,mascara
+trajetoria,433,passador,1,5.528192520141602,1477,mascara
+trajetoria,433,recebedor,3,6.992401123046875,1114,mascara
+recepcao,456,passador,1,5.185664653778076,1302,mascara
+recepcao,456,recebedor,3,6.663289546966553,1409,mascara

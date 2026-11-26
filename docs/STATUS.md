@@ -14,3 +14,4 @@
 - Os oito testes automatizados passaram. Os MP4 de ajuste e avaliação foram decodificados e conferidos a 25 FPS.
 - A tag `tp2-1.0` preserva o código e o ZIP de resultados da entrega acadêmica. Em um clone da tag, a avaliação reproduziu a análise, a comparação, o CSV e a tabela de profundidade da release byte a byte com o mesmo ambiente CUDA.
 - O README tem versões em português e inglês e capturas da interface. A [documentação de licenças](LICENCAS.md) descreve o que é distribuído e a origem dos insumos locais.
+- A [demonstração estática](../demo/README.md) foi montada sem dependências de inferência na hospedagem. Os quatro CSVs correspondem à release acadêmica. O Chrome verificou reprodução, navegação por quadro, camadas, efeitos, profundidade e downloads da demonstração, além da regressão do estúdio Flask local.

@@ -8,6 +8,8 @@ __pycache__/
 .ruff_cache/
 .coverage
 .vscode/
+/.vercel/
+/dist-demo/
 
 # Segredos e preferências locais
 .env

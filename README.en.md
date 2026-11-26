@@ -10,6 +10,10 @@ Replay Tático reconstructs a football pass from match footage and produces an a
 
 ![The Special view in the running application, using an original illustrative pitch](docs/imagens/modo-especial.png)
 
+## Online demo
+
+The static demo replays the observations from both locally processed clips on an original schematic pitch. It shares the studio controls and keeps technical overlays, visual effects, and schematic maps of the measured player depths. Importing videos, running inference, viewing source footage, and inspecting dense depth maps are features of the local studio. [Vercel setup](demo/README.md)
+
 ## Install and run
 
 Use Git and 64-bit Python 3.14. In Windows PowerShell:

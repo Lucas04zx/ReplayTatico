@@ -16,6 +16,10 @@ Python e OpenCV leem os quadros originais. Ultralytics, PyTorch e ByteTrack gera
 
 ![Captura do modo Especial com a Mão Fantasma em um campo ilustrativo autoral](docs/imagens/modo-especial.png)
 
+## Demonstração online
+
+A demonstração estática reproduz as observações dos dois lances processados localmente. Os modos Esquema, Técnico e Especial compartilham os controles do estúdio. Os mapas esquemáticos mostram a posição e as medianas dos jogadores calculadas pelo modelo, com a origem manual identificada na avaliação. A importação, a inferência de novos clipes, os vídeos originais e os mapas densos estão disponíveis no estúdio local. [Configuração da Vercel](demo/README.md)
+
 ## Instalação
 
 Pré-requisitos: Git, Python 3.14 de 64 bits e espaço para dependências e vídeos. No PowerShell:

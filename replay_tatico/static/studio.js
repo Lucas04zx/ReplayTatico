@@ -1,5 +1,6 @@
 import { drawEffects } from "./effects.js";
 
+const demo = document.body.dataset.demo === "true" ? await import("./demo.js") : null;
 const byId = (id) => document.getElementById(id);
 const select = byId("clips");
 const timeline = byId("timeline");
@@ -10,7 +11,21 @@ const canvas = byId("effect");
 const play = byId("play");
 const tabs = [...document.querySelectorAll("[data-view]")];
 const manualNames = { SHOT: "Chute energético", SAVE: "Mão Fantasma", GOAL: "Gol especial", INTERCEPTION: "Interceptação" };
+const eventNames = { PASS_START: "Saída", PASS_RECEIVED: "Recepção", REFERENCE_START: "Saída manual", REFERENCE_END: "Recepção manual", ...manualNames };
 const depthNames = { saida: "Saída", trajetoria: "Trajetória", recepcao: "Recepção", inicio_amostra: "Início da amostra", meio_amostra: "Meio da amostra", fim_amostra: "Fim da amostra" };
+const schematic = demo ? document.createElement("canvas") : null;
+const referenceNote = demo ? document.createElement("p") : null;
+if (demo) {
+  schematic.id = "schematic";
+  schematic.hidden = true;
+  schematic.setAttribute("role", "img");
+  schematic.setAttribute("aria-label", "Reconstrução esquemática das observações do quadro");
+  canvas.before(schematic);
+  referenceNote.id = "reference-note";
+  referenceNote.className = "muted";
+  referenceNote.hidden = true;
+  byId("reason").after(referenceNote);
+}
 
 let meta;
 let current = 0;
@@ -85,7 +100,7 @@ function renderMarker() {
 }
 
 function activeLayers() {
-  return [...byId("layers").querySelectorAll("input:checked")].map((item) => item.value);
+  return [...byId("layers").querySelectorAll("input:checked:not(:disabled)")].map((item) => item.value);
 }
 
 function frameUrl(index) {
@@ -103,6 +118,13 @@ async function showFrame(index) {
   timeline.value = String(current);
   const requested = current;
   const identity = ++requestId;
+  if (demo) {
+    demo.drawFrame(schematic, meta, requested, view, new Set(activeLayers()));
+    schematic.hidden = false;
+    byId("empty").hidden = true;
+    displayIndex(requested);
+    return;
+  }
   const next = new Image();
   next.src = frameUrl(requested);
   try {
@@ -134,7 +156,7 @@ async function tick(identity) {
 async function startPlayback() {
   const identity = ++playbackId;
   const technical = view === "technical";
-  if (technical && activeLayers().length !== byId("layers").querySelectorAll("input").length) {
+  if (demo || (technical && activeLayers().length !== byId("layers").querySelectorAll("input").length)) {
     tick(identity);
     return;
   }
@@ -183,7 +205,7 @@ function listMarkers() {
     const button = document.createElement("button");
     button.type = "button";
     button.dataset.event = event.type;
-    const label = event.type === "PASS_START" ? "Saída" : event.type === "PASS_RECEIVED" ? "Recepção" : manualNames[event.type];
+    const label = eventNames[event.type];
     button.textContent = event.origin === "manual" ? "▲" : label;
     button.title = `${label} · ${event.origin} · quadro ${event.frame}`;
     const percent = 100 * (event.frame - meta.start) / Math.max(1, meta.end - meta.start);
@@ -218,6 +240,13 @@ function renderDetails() {
   const result = meta.pass;
   byId("pass-status").textContent = result ? (result.status === "CONCLUIDO" ? "Passe concluído" : "Passe inconclusivo") : "Este clipe ainda não foi processado.";
   byId("reason").textContent = result?.reason || "";
+  if (demo) {
+    const evidence = meta.reference;
+    referenceNote.hidden = !evidence;
+    referenceNote.textContent = evidence
+      ? `Referência manual: Q ${evidence.release}–${evidence.reception} · ${evidence.seconds.toLocaleString("pt-BR", { minimumFractionDigits: 2 })} s. Pose e destaques usam os IDs associados a essa referência.`
+      : "";
+  }
   const fields = byId("pass-fields");
   fields.replaceChildren();
   if (result) {
@@ -237,11 +266,13 @@ function renderDetails() {
     const files = [["Replay MP4", "replay.mp4"], ["CSV", "resultado.csv"], ["Análise JSON", "analise.json"]];
     if (meta.comparison) files.push(["Comparação manual", "avaliacao.json"]);
     if (meta.depth_origin === "manual") files.push(["Replay com referência", "replay-referencia.mp4"]);
-    for (const [text, file] of files) {
+    const items = demo ? demo.exportsFor(meta) : files.map(([text, file]) => [text, base() + "/exportar/" + file]);
+    for (const [text, url] of items) {
       const link = document.createElement("a");
       link.className = "button";
       link.textContent = text;
-      link.href = base() + "/exportar/" + file;
+      link.href = url;
+      if (demo) link.download = "";
       downloads.append(link);
     }
   }
@@ -249,15 +280,25 @@ function renderDetails() {
   const grid = byId("depth-grid");
   grid.replaceChildren();
   if (meta.depth) {
-    const fromReference = meta.depth_origin === "manual";
+    const fromReference = meta.depth_origin === "manual" || Boolean(demo && meta.reference);
     const query = fromReference ? "?origem=manual" : "";
     byId("depth-title").textContent = fromReference ? "Profundidade · quadros da referência manual" : "Profundidade monocular";
-    byId("depth-table").href = base() + "/evidencias/profundidade.csv" + query;
+    const depthTable = byId("depth-table");
+    depthTable.href = demo ? demo.depthUrl(meta.id) : base() + "/evidencias/profundidade.csv" + query;
+    if (demo) {
+      depthTable.download = "";
+      byId("depth-title").textContent = fromReference ? "Mapas esquemáticos · referência manual" : "Mapas esquemáticos de profundidade";
+    }
     for (const entry of meta.depth) {
       const figure = document.createElement("figure");
       const caption = document.createElement("figcaption");
       caption.textContent = `${depthNames[entry.name]} · quadro ${entry.frame}`;
       figure.append(caption);
+      if (demo) {
+        demo.attachDepth(figure, meta, entry);
+        grid.append(figure);
+        continue;
+      }
       for (const [file, label] of [[entry.rgb, "Quadro RGB"], [entry.map, "Mapa de profundidade"]]) {
         const evidence = new Image();
         evidence.loading = "lazy";
@@ -278,10 +319,11 @@ async function loadClip(id) {
   visible = null;
   setMarking(null);
   image.hidden = true;
+  if (demo) schematic.hidden = true;
   byId("empty").hidden = false;
   byId("empty").textContent = id ? "Carregando quadro…" : "Selecione ou importe um vídeo.";
   if (!id) return;
-  const loaded = await api("/api/clipes/" + encodeURIComponent(id));
+  const loaded = await api(demo ? demo.clipUrl(id) : "/api/clipes/" + encodeURIComponent(id));
   if (catalogId !== selection) return;
   meta = loaded;
   reference = {};
@@ -298,6 +340,14 @@ async function loadClip(id) {
   screen.style.aspectRatio = `${meta.width} / ${meta.height}`;
   canvas.width = meta.width;
   canvas.height = meta.height;
+  if (demo) {
+    schematic.width = meta.width;
+    schematic.height = meta.height;
+    meta.ball = Object.fromEntries(meta.frames.filter((frame) => frame.ball).map((frame) => [frame.index, frame.ball]));
+    const mask = byId("layers").querySelector('[value="mask"]');
+    mask.disabled = !meta.has_masks;
+    mask.parentElement.title = mask.disabled ? "Contornos disponíveis no clipe de ajuste." : "";
+  }
   byId("annotation-help").textContent = meta.reference_saved ? "A referência deste trecho já foi registrada."
     : "Registre a saída e marque o passador no quadro anterior. Registre a recepção e marque o recebedor no quadro do primeiro contato.";
   renderReference();
@@ -308,7 +358,7 @@ async function loadClip(id) {
 }
 
 async function catalog(preferred) {
-  const choices = await api("/api/clipes");
+  const choices = await api(demo ? demo.catalogUrl : "/api/clipes");
   const queryClip = new URLSearchParams(location.search).get("clipe");
   select.replaceChildren();
   for (const choice of choices) select.add(new Option(choice.label, choice.id));
@@ -400,7 +450,7 @@ byId("mark-reception").addEventListener("click", () => {
   renderReference();
 });
 screen.addEventListener("click", (event) => {
-  if (!marking || !meta || visible !== current || image.hidden) return;
+  if (!marking || !meta || visible !== current || (demo ? schematic.hidden : image.hidden)) return;
   const rect = screen.getBoundingClientRect();
   const box = videoRectangle();
   const x = (event.clientX - rect.left - box.x) / box.width;

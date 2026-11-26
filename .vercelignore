@@ -1,0 +1,9 @@
+/.cache/
+/.venv/
+/.vercel/
+/dist-demo/
+/data/
+/models/
+/outputs/
+/tp2.pdf
+/ReplayTatico_Dossie_de_Continuidade.txt
