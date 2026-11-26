@@ -1,8 +1,20 @@
 # Replay Tático
 
+[English version](README.en.md)
+
 Replay anotado de futebol para estudar a trajetória de um passe, o gesto do passador e a posição dos jogadores em relação à câmera. Trabalho Prático 2 de Computação Gráfica do IFSULDEMINAS, Campus Machado.
 
 **Professor** Renan · **Entrega e apresentação** 9 de dezembro de 2026
+
+## O sistema
+
+- **Original** para inspeção quadro a quadro e marcação independente.
+- **Técnico** para revisar IDs, trajetória, pose, segmentação, profundidade e evidências.
+- **Especial** para visualizar efeitos nos mesmos eventos de passe e criar marcadores cinematográficos manuais.
+
+Python e OpenCV leem os quadros originais. Ultralytics, PyTorch e ByteTrack geram as observações. A análise do passe combina essas observações com o movimento da perna e a continuidade temporal. Flask e Canvas exibem o replay no navegador local. As inferências são executadas sequencialmente e podem ser reutilizadas do cache.
+
+![Captura do modo Especial com a Mão Fantasma em um campo ilustrativo autoral](docs/imagens/modo-especial.png)
 
 ## Instalação
 
@@ -100,3 +112,9 @@ Para organizar os arquivos de apresentação depois de gerar análise e evidênc
 ```
 
 O comando salva os dois ZIPs em `outputs/entrega`. Use o pacote local para a apresentação offline com os vídeos baixados. Consulte as [fontes dos vídeos](docs/VIDEOS.md) e a [licença do Ultralytics](https://www.ultralytics.com/license).
+
+## Limitações e licença
+
+Câmera em movimento, bola pequena, oclusão e trocas de ID podem comprometer a identificação. Os mapas representam estimativas monoculares para comparar os jogadores dentro de um quadro. O modo Especial usa eventos de passe do pipeline e marcadores manuais para gols, chutes, defesas e interceptações.
+
+O código do Replay Tático é disponibilizado sob a [GNU AGPL-3.0](LICENSE). Dependências, pesos e vídeos mantêm seus próprios termos. [Licenças e origem dos materiais](docs/LICENCAS.md)

@@ -12,4 +12,5 @@
 - A revisão visual da avaliação usou os quadros e papéis da referência após registrar a saída automática. O MP4 com os marcadores manuais, as três duplas RGB/profundidade, a tabela e os quadros de pose e segmentação foram gerados.
 - Estúdio Flask local com avanço e retorno por quadro, reprodução, camadas, exportação, profundidade e efeitos manuais. A reprodução, a navegação e a Mão Fantasma foram verificadas no Chrome.
 - Os oito testes automatizados passaram. Os MP4 de ajuste e avaliação foram decodificados e conferidos a 25 FPS.
-- A documentação e os pacotes de entrega estão organizados. A revisão com o trio e a liberação de acesso ao professor aguardam o grupo.
+- A tag `tp2-1.0` preserva o código e o ZIP de resultados da entrega acadêmica. Em um clone da tag, a avaliação reproduziu a análise, a comparação, o CSV e a tabela de profundidade da release byte a byte com o mesmo ambiente CUDA.
+- O README tem versões em português e inglês e capturas da interface. A [documentação de licenças](LICENCAS.md) descreve o que é distribuído e a origem dos insumos locais.
