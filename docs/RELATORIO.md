@@ -4,11 +4,13 @@ Instituto Federal do Sul de Minas, Campus Machado · Bacharelado em Sistemas de 
 
 Computação Gráfica · Trabalho Prático 2 · Professor Renan
 
-Lucas Antônio Ferreira Neto · demais integrantes a confirmar
+Lucas Antônio Ferreira Neto · trio identificado no relatório de entrega
 
 ## Objetivo e trechos
 
 O Replay Tático gera um MP4 para revisar a trajetória de um passe, identificar os jogadores envolvidos e inspecionar pose, segmentação e profundidade monocular. Os vídeos do Roboflow têm 1.920 × 1.080 pixels e 25 FPS verificados. O trecho de ajuste usa `0bfacc_0.mp4`, quadros 55–160. A avaliação independente usa `2e57b9_0.mp4`, quadros 402–471. O segundo lance foi inspecionado apenas no vídeo original até o congelamento. [Fontes e integridade dos vídeos](VIDEOS.md)
+
+O ByteTrack mantém os IDs. Para estimar a saída, o programa combina a proximidade da bola ao pé, o movimento da perna estimado pela pose e o afastamento da bola. Na recepção, busca o primeiro contato com outro jogador. Com FPS constante, a duração é a diferença entre os quadros dividida por 25.
 
 ## Experimento de ajuste
 
@@ -20,16 +22,6 @@ O Replay Tático gera um MP4 para revisar a trajetória de um passe, identificar
 | Detector Roboflow, mesma entrada e limiar, pose em recortes de jogadores | 16 / 106 | Concluído |
 
 Reduzir a confiança do YOLO genérico fez aparecer candidatos em mais quadros, inclusive falsos positivos na publicidade. O detector especializado acompanhou a bola perto da saída e até o primeiro contato estimado. A pose em recortes ampliou os jogadores e permitiu associar o gesto ao ID **6**. O sistema estimou a saída no quadro **60**, recepção pelo ID **1** no **91** e duração de **1,24 s**. Nos quadros 93–97 a bola não foi localizada. Esta é uma dificuldade real logo após a recepção estimada.
-
-Os três momentos de pose foram exportados nos quadros 57, 60 e 63. A comparação caixa/máscara usa o quadro 56 e permite inspecionar a área de gramado incluída na caixa. O MP4 e as imagens do ajuste são gerados pelo comando do README. [Metodologia e limitações](ALGORITMOS.md)
-
-| Momento | Quadro | Mediana do ID 6 | Mediana do ID 1 | ID estimado mais próximo |
-| --- | ---: | ---: | ---: | ---: |
-| Saída | 60 | 5,77 | 4,57 | 1 |
-| Trajetória | 75 | 6,02 | 4,54 | 1 |
-| Recepção | 91 | 6,25 | 4,89 | 1 |
-
-As estimativas usaram a mediana dentro das máscaras dos dois jogadores. Os mapas são qualitativos neste experimento. Em um plano aberto, um atleta ocupa poucos pixels e a oclusão altera a parte visível sobre a qual a mediana é calculada.
 
 ## Avaliação independente
 
@@ -47,6 +39,8 @@ A bola foi detectada em 67 dos 70 quadros. As perdas ocorreram nos quadros 405, 
 ### Evidências dos quadros indicados pela referência manual
 
 Depois de apurar e registrar o resultado automático, usamos os cliques e os quadros manuais para escolher as evidências visuais. O replay com referência exibe a origem manual dos marcadores. Os quadros 408, 411 e 414 apresentam pose em preparação, saída e finalização. O par caixa/máscara do quadro 407 permite observar o gramado incluído pela caixa na margem do atleta.
+
+O PDF do pacote local de entrega reúne, lado a lado, a caixa e a máscara no quadro 407. O mesmo PDF inclui os três quadros de pose e os três pares RGB e profundidade da avaliação.
 
 | Momento | Quadro | Mediana do ID 1 | Mediana do ID 3 | ID estimado mais próximo |
 | --- | ---: | ---: | ---: | ---: |

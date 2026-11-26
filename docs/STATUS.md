@@ -16,3 +16,4 @@
 - O README tem versões em português e inglês e capturas da interface. A [documentação de licenças](LICENCAS.md) descreve o que é distribuído e a origem dos insumos locais.
 - A [demonstração estática](../demo/README.md) foi montada sem dependências de inferência na hospedagem. Os quatro CSVs correspondem à release acadêmica. O Chrome verificou reprodução, navegação por quadro, camadas, efeitos, profundidade e downloads da demonstração, além da regressão do estúdio Flask local.
 - O deploy na Vercel concluiu pelo GitHub. O Chrome repetiu os testes na URL pública, e os quatro CSVs servidos têm os mesmos hashes da cópia local. [Demonstração publicada](https://replaytatico.vercel.app/)
+- A revisão final do TP2 confirmou a decodificação dos três replays a 25 FPS, o CSV e a comparação inconclusiva. Os dez testes passaram. O ZIP local inclui o PDF de duas páginas com o trio, o par caixa e máscara, os quadros de pose e os três pares RGB e profundidade.

@@ -105,7 +105,7 @@ O [status](docs/STATUS.md) acompanha a implementação e os testes. O [checklist
 
 ## Vídeos e entrega
 
-Os vídeos usados localmente vêm do [Roboflow Soccer AI](https://github.com/roboflow/sports/tree/main/examples/soccer). Preserve o arquivo de origem e sua numeração de quadros. A referência independente do segundo lance será criada pelo grupo antes da inferência automática.
+Os vídeos usados localmente vêm do [Roboflow Soccer AI](https://github.com/roboflow/sports/tree/main/examples/soccer). Preserve o arquivo de origem e sua numeração de quadros. O grupo registrou a referência independente do segundo lance antes da inferência automática.
 
 O Git guarda o código e a documentação. O pacote `ReplayTatico-resultados-e-referencia.zip` da [release do TP2](https://github.com/Lucas04zx/ReplayTatico/releases/tag/tp2-1.0) inclui os resultados e a referência usada na comparação. Extraia `data/annotations/avaliacao.json` desse ZIP na mesma pasta relativa do clone para reproduzir a comparação. Os replays e quadros do vídeo são gerados localmente a partir das fontes do professor.
 
