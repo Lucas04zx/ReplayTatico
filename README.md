@@ -18,7 +18,7 @@ Python e OpenCV leem os quadros originais. Ultralytics, PyTorch e ByteTrack gera
 
 ## Demonstração online
 
-A demonstração estática reproduz as observações dos dois lances processados localmente. Os modos Esquema, Técnico e Especial compartilham os controles do estúdio. Os mapas esquemáticos mostram a posição e as medianas dos jogadores calculadas pelo modelo, com a origem manual identificada na avaliação. A importação, a inferência de novos clipes, os vídeos originais e os mapas densos estão disponíveis no estúdio local. [Configuração da Vercel](demo/README.md)
+A demonstração estática reproduz as observações dos dois lances processados localmente. Os modos Esquema, Técnico e Especial compartilham os controles do estúdio. Os mapas esquemáticos mostram a posição e as medianas dos jogadores calculadas pelo modelo, com a origem manual identificada na avaliação. A importação, a inferência de novos clipes, os vídeos originais e os mapas densos estão disponíveis no estúdio local. [Abrir demonstração](https://replaytatico.vercel.app/) · [Configuração da Vercel](demo/README.md)
 
 ## Instalação
 

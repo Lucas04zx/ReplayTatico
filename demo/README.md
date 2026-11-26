@@ -1,5 +1,7 @@
 # Demonstração do Replay Tático na Vercel
 
+[Abrir a demonstração publicada](https://replaytatico.vercel.app/)
+
 O estúdio Flask inicia localmente por `python -m replay_tatico estudio`. O preset Flask da Vercel procurava um ponto de entrada distribuível e falhava com `FLASK_ENTRYPOINT_NOT_FOUND`. A hospedagem usa a interface compartilhada, arquivos JavaScript e as observações já calculadas. A montagem estática usa apenas módulos nativos do Node.js. [Entrypoints Flask](https://vercel.com/docs/frameworks/backend/flask)
 
 ## Implantação pelo GitHub
